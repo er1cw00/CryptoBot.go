@@ -33,6 +33,9 @@ type Options struct {
 
 	// Optional. Default is 30 seconds
 	ClientTimeout time.Duration
+
+	// Optional. Set Proxy URL, Default is nil
+	ProxyUrl *url.URL
 }
 
 func NewClient(options Options) *Client {
@@ -45,8 +48,18 @@ func NewClient(options Options) *Client {
 	if options.ClientTimeout != 0 {
 		clientTimeout = options.ClientTimeout
 	}
-	c.httpClient = &http.Client{
-		Timeout: clientTimeout,
+	if options.ProxyUrl != nil {
+		transport := &http.Transport{
+			Proxy: http.ProxyURL(options.ProxyUrl),
+		}
+		c.httpClient = &http.Client{
+			Timeout:   clientTimeout,
+			Transport: transport,
+		}
+	} else {
+		c.httpClient = &http.Client{
+			Timeout: clientTimeout,
+		}
 	}
 
 	return c
