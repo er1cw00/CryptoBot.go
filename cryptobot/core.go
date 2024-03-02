@@ -46,11 +46,11 @@ type Invoice struct {
 	// Amount of the invoice.
 	Amount string `json:"amount"`
 
-	// Optional. Amount of charged service fees. Returned only if the invoice has the paid status.
-	Fee string `json:"fee"`
+	// Optional. Amount of service fees charged when the invoice was paid. Available only if status is “paid”.
+	FeeAmount string `json:"fee_amount"`
 
-	// URL should be presented to the user to pay the invoice.
-	PayUrl string `json:"pay_url"`
+	// URL should be presented to the user to pay the invoice. Replace pay_url from API 1.2
+	BotInvoiceUrl string `json:"bot_invoice_url"`
 
 	// Optional. Description for this invoice.
 	Description string `json:"description"`
@@ -58,8 +58,8 @@ type Invoice struct {
 	// Date the invoice was created in ISO 8601 format.
 	CreatedAt string `json:"created_at"`
 
-	// Optional. Price of the asset in USD. Returned only if the invoice has the paid status.
-	UsdRate string `json:"usd_rate"`
+	// Optional. Price of the asset in USD. Available only if status is “paid”.
+	PaidUsdRate string `json:"paid_usd_rate"`
 
 	// True, if the user can add comment to the payment.
 	AllowComments bool `json:"allow_comments"`
